@@ -1,5 +1,11 @@
+# include example env values
 include .env.example
-#include .env
+
+# override env values if real .env file exists
+ifneq (,$(wildcard ./.env))
+    include .env
+#    export
+endif
 
 test:
 	go test -v ./...
