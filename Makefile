@@ -1,5 +1,5 @@
 include .env.example
-include .env
+#include .env
 
 test:
 	go test -v ./...
