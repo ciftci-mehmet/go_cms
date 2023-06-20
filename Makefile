@@ -1,4 +1,5 @@
-DB_URL=postgresql://root:secret@localhost:5432/go_cms?sslmode=disable
+include .env.example
+include .env
 
 test:
 	go test -v ./...
@@ -10,10 +11,10 @@ coverage:
 	@go test -cover ./...
 
 migrateup:
-	migrate -path db/migration -database "${DB_URL}" -verbose up
+	migrate -path db/migration -database "${DB_SOURCE}" -verbose up
 
 migratedown:
-	migrate -path db/migration -database "${DB_URL}" -verbose down
+	migrate -path db/migration -database "${DB_SOURCE}" -verbose down
 
 sqlc:
 	sqlc generate
