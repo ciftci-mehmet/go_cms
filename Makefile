@@ -25,4 +25,7 @@ migratedown:
 sqlc:
 	sqlc generate
 
+# migratecreate
+# migrate create -ext sql -dir db/migration -seq posts
+
 .PHONY: test cover coverage migrateup migratedown sqlc

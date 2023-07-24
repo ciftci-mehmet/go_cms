@@ -5,4 +5,4 @@ CREATE TABLE "users"(
     "created_at" timestamptz NOT NULL DEFAULT(now())
 );
 
-CREATE INDEX ON "users"("username");
+CREATE INDEX idx_users_username ON "users"("username");

@@ -29,9 +29,25 @@ func TestCreateUser(t *testing.T) {
 	createdUserId = user.ID
 }
 
-func TestGetUser(t *testing.T) {
+func TestGetUserById(t *testing.T) {
 
-	user, err := testQueries.GetUser(context.Background(), "mehmettest")
+	user, err := testQueries.GetUserById(context.Background(), createdUserId)
+	require.NoError(t, err)
+	require.NotEmpty(t, user)
+
+	require.Equal(t, user.ID, createdUserId)
+	require.Equal(t, user.Username, "mehmettest")
+	require.Equal(t, user.HashedPassword, "123445544123")
+
+	require.NotZero(t, user.ID)
+	require.NotZero(t, user.CreatedAt)
+
+	require.Equal(t, user.ID, createdUserId)
+
+}
+func TestGetUserByUsername(t *testing.T) {
+
+	user, err := testQueries.GetUserByUsername(context.Background(), "mehmettest")
 	require.NoError(t, err)
 	require.NotEmpty(t, user)
 
@@ -46,7 +62,7 @@ func TestGetUser(t *testing.T) {
 }
 
 func TestUpdateUser(t *testing.T) {
-	user, err := testQueries.GetUser(context.Background(), "mehmettest")
+	user, err := testQueries.GetUserByUsername(context.Background(), "mehmettest")
 	require.NoError(t, err)
 	require.NotZero(t, user.ID)
 
@@ -66,7 +82,7 @@ func TestUpdateUser(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, updatedUser)
 
-	gotUser, err := testQueries.GetUser(context.Background(), "mehmettest2")
+	gotUser, err := testQueries.GetUserByUsername(context.Background(), "mehmettest2")
 	require.NoError(t, err)
 	require.NotEmpty(t, gotUser)
 
@@ -78,7 +94,8 @@ func TestDeleteUser(t *testing.T) {
 	err := testQueries.DeleteUser(context.Background(), createdUserId)
 	require.NoError(t, err)
 
-	_, err = testQueries.GetUser(context.Background(), "mehmettest2")
+	_, err = testQueries.GetUserByUsername(context.Background(), "mehmettest2")
 	require.Error(t, err)
+	require.EqualError(t, err, sql.ErrNoRows.Error())
 
 }
