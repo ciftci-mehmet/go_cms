@@ -1,6 +1,6 @@
 CREATE TABLE "posts" (
                          "id" bigserial PRIMARY KEY,
-                         "user_id" integer NOT NULL,
+                         "user_id" bigint NOT NULL,
                          "title" varchar NOT NULL,
                          "body" text NOT NULL,
                          "status" varchar NOT NULL,

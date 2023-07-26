@@ -12,7 +12,7 @@ var createdUserId int64
 
 func TestCreateUser(t *testing.T) {
 	arg := CreateUserParams{
-		Username:       "mehmettest",
+		Username:       "testUser",
 		HashedPassword: "123445544123",
 	}
 
@@ -36,7 +36,7 @@ func TestGetUserById(t *testing.T) {
 	require.NotEmpty(t, user)
 
 	require.Equal(t, user.ID, createdUserId)
-	require.Equal(t, user.Username, "mehmettest")
+	require.Equal(t, user.Username, "testUser")
 	require.Equal(t, user.HashedPassword, "123445544123")
 
 	require.NotZero(t, user.ID)
@@ -47,11 +47,11 @@ func TestGetUserById(t *testing.T) {
 }
 func TestGetUserByUsername(t *testing.T) {
 
-	user, err := testQueries.GetUserByUsername(context.Background(), "mehmettest")
+	user, err := testQueries.GetUserByUsername(context.Background(), "testUser")
 	require.NoError(t, err)
 	require.NotEmpty(t, user)
 
-	require.Equal(t, user.Username, "mehmettest")
+	require.Equal(t, user.Username, "testUser")
 	require.Equal(t, user.HashedPassword, "123445544123")
 
 	require.NotZero(t, user.ID)
@@ -62,13 +62,13 @@ func TestGetUserByUsername(t *testing.T) {
 }
 
 func TestUpdateUser(t *testing.T) {
-	user, err := testQueries.GetUserByUsername(context.Background(), "mehmettest")
+	user, err := testQueries.GetUserByUsername(context.Background(), "testUser")
 	require.NoError(t, err)
 	require.NotZero(t, user.ID)
 
 	arg := UpdateUserParams{
 		Username: sql.NullString{
-			String: "mehmettest2",
+			String: "testUser2",
 			Valid:  true,
 		},
 		HashedPassword: sql.NullString{
@@ -82,11 +82,11 @@ func TestUpdateUser(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, updatedUser)
 
-	gotUser, err := testQueries.GetUserByUsername(context.Background(), "mehmettest2")
+	gotUser, err := testQueries.GetUserByUsername(context.Background(), "testUser2")
 	require.NoError(t, err)
 	require.NotEmpty(t, gotUser)
 
-	require.Equal(t, gotUser.Username, "mehmettest2")
+	require.Equal(t, gotUser.Username, "testUser2")
 
 }
 
@@ -94,7 +94,7 @@ func TestDeleteUser(t *testing.T) {
 	err := testQueries.DeleteUser(context.Background(), createdUserId)
 	require.NoError(t, err)
 
-	_, err = testQueries.GetUserByUsername(context.Background(), "mehmettest2")
+	_, err = testQueries.GetUserByUsername(context.Background(), "testUser2")
 	require.Error(t, err)
 	require.EqualError(t, err, sql.ErrNoRows.Error())
 
